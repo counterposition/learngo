@@ -1,19 +1,27 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
-	lines := []string{
-		"Starting to make a coffee",
-		"Grinding coffee beans",
-		"Boiling water",
-		"Mixing boiled water with crushed coffee beans",
-		"Pouring coffee into the cup",
-		"Pouring some milk into the cup",
-		"Coffee is ready!",
+	var cups uint
+
+	fmt.Println("Write how many cups of coffee you will need:")
+	for {
+		fmt.Printf("> ")
+		_, err := fmt.Scanf("%d", &cups)
+		if err == nil {
+			break
+		}
 	}
 
-	for _, line := range lines {
-		fmt.Println(line)
-	}
+	var water = 200 * cups
+	var milk = 50 * cups
+	var beans = 15 * cups
+
+	fmt.Printf("For %d cups of coffee you will need:\n", cups)
+	fmt.Printf("%d ml of water\n", water)
+	fmt.Printf("%d ml of milk\n", milk)
+	fmt.Printf("%d g of coffee beans\n", beans)
 }
