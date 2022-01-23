@@ -10,3 +10,6 @@ What goes in the master branch?
 It might just be a single root commit that forks into different lines of development, or it might receive commits from other branches.
 Don't overthink it.
 Just start moving and figure it out as you go along.
+
+---
+*Click the "branches" button up top [to see recent commits](https://github.com/counterposition/learngo/branches)*
