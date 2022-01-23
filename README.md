@@ -1,12 +1,8 @@
-# Learning Go by making stuff
+# Capturing JSON data sent by a CircleCI webhook
 
-> Theory and practice are like two wheels of a wagon - you'll only go in circles if you neglect one of them.
+CircleCI can send to a specified URL a JSON payload describing the state of a build.
+For example, it can POST to the URL every time a workflow starts, fails, or finishes.
 
-This is a playground for learning Go.
-The general idea is to create a feature branch for every concept, idea, or prototype you want to explore.
-Don't hesitate to create branches upon branches.
+The code here is a simple example of how to capture the JSON payload and print it to the console.
 
-What goes in the master branch?
-It might just be a single root commit that forks into different lines of development, or it might receive commits from other branches.
-Don't overthink it.
-Just start moving and figure it out as you go along.
+Next up: validating that the HTTP request did indeed come from CircleCI (and not an impostor) by checking the body's HMAC signature
