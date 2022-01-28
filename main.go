@@ -1,79 +1,66 @@
 package main
 
 import (
+	"bytes"
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
-	"time"
+	"os"
+	"strings"
 )
 
-// I didn't type all this out. It was auto-generated from an actual JSON object by GoLand.
+// CircleCIPayload is the data CircleCI sends as a JSON payload in its POST requests whenever a workflow's status changes (i.e. when it starts, finishes, etc.)
 type CircleCIPayload struct {
-	Type       string    `json:"type"`
-	Id         string    `json:"id"`
-	HappenedAt time.Time `json:"happened_at"`
-	Webhook    struct {
-		Id   string `json:"id"`
-		Name string `json:"name"`
-	} `json:"webhook"`
-	Workflow struct {
-		Id        string    `json:"id"`
-		Name      string    `json:"name"`
-		CreatedAt time.Time `json:"created_at"`
-		StoppedAt time.Time `json:"stopped_at"`
-		Url       string    `json:"url"`
-		Status    string    `json:"status"`
-	} `json:"workflow"`
 	Pipeline struct {
-		Id        string    `json:"id"`
-		Number    int       `json:"number"`
-		CreatedAt time.Time `json:"created_at"`
-		Trigger   struct {
-			Type string `json:"type"`
-		} `json:"trigger"`
 		Vcs struct {
-			ProviderName        string `json:"provider_name"`
-			OriginRepositoryUrl string `json:"origin_repository_url"`
-			TargetRepositoryUrl string `json:"target_repository_url"`
-			Revision            string `json:"revision"`
-			Commit              struct {
-				Subject string `json:"subject"`
-				Body    string `json:"body"`
-				Author  struct {
-					Name  string `json:"name"`
-					Email string `json:"email"`
-				} `json:"author"`
-				AuthoredAt time.Time `json:"authored_at"`
-				Committer  struct {
-					Name  string `json:"name"`
-					Email string `json:"email"`
-				} `json:"committer"`
-				CommittedAt time.Time `json:"committed_at"`
-			} `json:"commit"`
-			Branch string `json:"branch"`
+			Revision string `json:"revision"`
 		} `json:"vcs"`
 	} `json:"pipeline"`
-	Project struct {
-		Id   string `json:"id"`
-		Name string `json:"name"`
-		Slug string `json:"slug"`
-	} `json:"project"`
-	Organization struct {
-		Id   string `json:"id"`
-		Name string `json:"name"`
-	} `json:"organization"`
 }
+
+func isRequestValid(payload []byte, signature string, key []byte) bool {
+	asBytes, _ := hex.DecodeString(signature)
+	mac := hmac.New(sha256.New, key)
+	mac.Write(payload)
+	code := mac.Sum(nil)
+	return hmac.Equal(code, asBytes)
+}
+
+var CircleciSharedSecret = []byte(os.Getenv("CIRCLECI_SECRET"))
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		decoder := json.NewDecoder(r.Body)
-		body := CircleCIPayload{}
-		err := decoder.Decode(&body)
+		var signature string
+		sigString := r.Header.Get("CircleCI-Signature")
+		sigs := strings.Split(sigString, ",")
+		for _, sig := range sigs {
+			parts := strings.Split(sig, "=")
+			if parts[0] == "v1" {
+				signature = parts[1]
+			}
+		}
+
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			return
+		}
+
+		if !isRequestValid(body, signature, CircleciSharedSecret) {
+			return
+		}
+
+		decoder := json.NewDecoder(bytes.NewReader(body))
+		payload := CircleCIPayload{}
+		err = decoder.Decode(&payload)
 		if err != nil {
 			log.Println(err)
 		}
-		fmt.Printf("%+v\n", body)
+		fmt.Printf("%+v\n", payload)
 	})
 
 	err := http.ListenAndServe(":8080", nil)
