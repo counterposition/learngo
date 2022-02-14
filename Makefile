@@ -18,3 +18,8 @@ run: build
 	@echo "Running..."
 
 	@./learn
+
+generate:
+	@go run github.com/99designs/gqlgen generate idl/schema.graphql
+
+	@echo "✅  Generate successful"

@@ -20,3 +20,8 @@
 
 # Musings and questions that arise during development
 notes.md
+
+# gqlgen
+/graph/**
+!/graph/resolver.go
+!/graph/schema.resolvers.go

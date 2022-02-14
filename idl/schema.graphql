@@ -2,9 +2,14 @@ type Query {
     groups: [Group!]!
 }
 
-type Group {
+interface FilteredUsers {
+    users(matching: String): [User!]!
+}
+
+type Group implements FilteredUsers {
     name: String!
-    users: [User!]!
+    users(matching: String): [User!]!
+    foobar(times: Int): String!
 }
 
 type User {

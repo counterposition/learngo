@@ -2,7 +2,10 @@ module github.com/counterposition/learngo
 
 go 1.17
 
-require github.com/99designs/gqlgen v0.16.0
+require (
+	github.com/99designs/gqlgen v0.16.0
+	github.com/vektah/gqlparser/v2 v2.2.0
+)
 
 require (
 	github.com/agnivade/levenshtein v1.1.0 // indirect
@@ -13,7 +16,6 @@ require (
 	github.com/mitchellh/mapstructure v1.2.3 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/urfave/cli/v2 v2.3.0 // indirect
-	github.com/vektah/gqlparser/v2 v2.2.0 // indirect
 	golang.org/x/mod v0.4.2 // indirect
 	golang.org/x/sys v0.0.0-20210510120138-977fb7262007 // indirect
 	golang.org/x/tools v0.1.5 // indirect

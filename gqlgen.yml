@@ -1,9 +1,23 @@
 schema:
   - idl/schema.graphql
 
+exec:
+  layout: follow-schema
+  dir: graph
+  package: graph
+
+model:
+  filename: graph/model/models_gen.go
+  package: model
+
 resolver:
   layout: follow-schema
   dir: graph
   package: graph
   filename_template: "{name}.resolvers.go"
 
+models:
+  Group:
+    fields:
+      users:
+        resolver: true
