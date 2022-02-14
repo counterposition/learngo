@@ -12,4 +12,4 @@ Don't overthink it.
 Just start moving and figure it out as you go along.
 
 ---
-*Click the "branches" button up top [to see recent commits](https://github.com/counterposition/learngo/branches)*
+*Click the "branches" button up top [to see recent commits](https://github.com/counterposition/learngo/branches/active)*
