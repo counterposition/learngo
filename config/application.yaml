@@ -1,0 +1,2 @@
+database: postgres://learn:learn@localhost/learn
+port: 8080
