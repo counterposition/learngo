@@ -20,3 +20,6 @@ learn
 
 # GoLand
 .idea
+
+# no idea why I need to add this - clearly, the cmd directory is being ignored by default
+!cmd/**
