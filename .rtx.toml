@@ -1,0 +1,4 @@
+# config for https://github.com/jdxcode/rtx, an asdf-compatible runtime manager written in Rust
+
+[tools]
+go = "1.21"
