@@ -1,13 +1,13 @@
 module github.com/counterposition/learngo
 
-go 1.20
+go 1.21
 
 require (
+	github.com/alicebob/miniredis/v2 v2.31.0
 	github.com/samber/do v1.6.0
-	go.uber.org/zap v1.24.0
 )
 
 require (
-	go.uber.org/atomic v1.7.0 // indirect
-	go.uber.org/multierr v1.6.0 // indirect
+	github.com/alicebob/gopher-json v0.0.0-20200520072559-a9ecdc9d1d3a // indirect
+	github.com/yuin/gopher-lua v1.1.0 // indirect
 )

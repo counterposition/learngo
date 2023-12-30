@@ -1,15 +1,15 @@
-# Learning Go by making stuff
+# Dependency Injection with samber/do
 
-> Theory and practice are like two wheels of a wagon - you'll only go in circles if you neglect one of them.
+[samber/do](https://github.com/samber/do) is a minimal dependency injection framework for Go that supports generics and does not use reflection.
 
-This is a playground for learning Go.
-The general idea is to create a feature branch for every concept, idea, or prototype you want to explore.
-Don't hesitate to create branches upon branches.
+The code in this branch sets up a simple HTTP server that exposes a single endpoint, `/`.
+The request handler keeps track of the cumulative number of requests received.
+It uses an [in-memory redis](https://github.com/alicebob/miniredis) to store state.
 
-What goes in the master branch?
-It might just be a single root commit that forks into different lines of development, or it might receive commits from other branches.
-Don't overthink it.
-Just start moving and figure it out as you go along.
+The HTTP server depends on a logger (log/slog from the standard library) and an HTTP handler.
+The HTTP handler itself depends on a logger and a redis client.
+
+All of these elements are automatically wired together by `samber/do` using its `Provide` and `Invoke` functions. 
 
 ---
 *Click the "branches" button up top [to see recent commits](https://github.com/counterposition/learngo/branches/active)*
